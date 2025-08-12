@@ -1,0 +1,10 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: serviceB
+
+# ServiceB에서는 Outbox Processor를 비활성화(컨슈머만 동작)
+outbox:
+  enabled: false

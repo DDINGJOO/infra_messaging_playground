@@ -1,1 +1,11 @@
 rootProject.name = 'infra_messaging_playground'
+
+include 'common:event'
+include 'common:infra-messaging'
+include 'common:outbox'
+include 'common:data-serializing'
+
+include 'services:serviceA'
+include 'services:serviceB'
+
+

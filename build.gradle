@@ -13,6 +13,17 @@ java {
     }
 }
 
+sourceSets {
+    main {
+        java {
+            // exclude migrated code (now lives in common modules and services)
+            exclude 'com/inframessaging/playground/messaging/**'
+            exclude 'com/inframessaging/playground/sample/**'
+            exclude 'com/inframessaging/playground/web/**'
+        }
+    }
+}
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor

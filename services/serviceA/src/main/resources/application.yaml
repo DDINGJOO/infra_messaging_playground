@@ -1,0 +1,42 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: serviceA
+  datasource:
+    url: jdbc:h2:mem:serviceA;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  h2:
+    console:
+      enabled: true
+  kafka:
+    bootstrap-servers: localhost:9092
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+messaging:
+  type: KAFKA   # KAFKA | RABBIT (대소문자 구분)
+  producer: real  # real: 실제 전송, mock: 로그만 출력
+  tracing:
+    propagation: true
+
+demo:
+  kafka:
+    topic: user.profile.updated.v1
+  rabbit:
+    exchange: user.events
+    routing-key: user.profile.updated
+    queue: user.profile.updated.queue
