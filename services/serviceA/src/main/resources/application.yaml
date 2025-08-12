@@ -35,7 +35,6 @@ outbox:
 
 messaging:
   type: KAFKA   # KAFKA | RABBIT (대소문자 구분)
-  producer: real  # real: 실제 전송, mock: 로그만 출력
   tracing:
     propagation: true
 

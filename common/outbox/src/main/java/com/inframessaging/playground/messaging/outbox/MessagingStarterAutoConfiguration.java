@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Import;
 @AutoConfiguration
 @EnableConfigurationProperties({MessagingProperties.class, OutboxProperties.class})
 @Import({
-        // 기본 프로퍼티 바인딩 및 Logging/Real Producer 제공 (infra-messaging 모듈)
+        // 기본 프로퍼티 바인딩 및 Producer 제공 (infra-messaging 모듈)
         MessagingAutoConfig.class,
         // Outbox 사용을 위한 JPA 스캔(엔티티/리포지토리 활성화)
         OutboxJpaConfig.class,

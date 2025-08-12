@@ -17,8 +17,6 @@ outbox:
   enabled: false
 
 messaging:
-  # ServiceB는 컨슈머만 동작하므로 producer는 mock 유지
-  producer: mock
   type: KAFKA   # KAFKA | RABBIT (대소문자 구분) - 현재 설정과 무관하게 두 컨슈머 모두 활성화됨
   tracing:
     propagation: true

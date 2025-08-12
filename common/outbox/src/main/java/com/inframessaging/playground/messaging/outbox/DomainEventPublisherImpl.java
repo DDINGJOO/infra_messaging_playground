@@ -68,7 +68,7 @@ public class DomainEventPublisherImpl implements DomainEventPublisher {
                 .kafka(Routing.Kafka.builder().topic(event.topic()).key(opts.getKafkaKey()).build())
                 // Rabbit: exchange + routingKey
                 .rabbit(Routing.Rabbit.builder().exchange(event.topic()).routingKey(
-                        opts.getRoutingKey() != null ? opts.getRoutingKey() : "user.profile.updated"
+                        opts.getRoutingKey()
                 ).build())
                 .build();
         return Envelope.<CustomEvent>builder()

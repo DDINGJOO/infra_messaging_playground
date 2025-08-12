@@ -14,13 +14,6 @@ public class MessagingProperties {
     /** 브로커 타입(kafka | rabbit) */
     private BrokerType type = BrokerType.KAFKA; // kafka | rabbit
 
-    /**
-     * Producer 동작 모드
-     * - mock: LoggingEventProducer 사용(브로커 없이 동작)
-     * - real: KafkaTemplate/RabbitTemplate을 사용한 실제 전송
-     */
-    private String producer = "mock"; // mock | real
-
     private Tracing tracing = new Tracing();
 
     @Data
