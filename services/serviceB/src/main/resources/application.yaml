@@ -4,7 +4,32 @@ server:
 spring:
   application:
     name: serviceB
+  kafka:
+    bootstrap-servers: localhost:9093
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
 # ServiceB에서는 Outbox Processor를 비활성화(컨슈머만 동작)
 outbox:
   enabled: false
+
+messaging:
+  # ServiceB는 컨슈머만 동작하므로 producer는 mock 유지
+  producer: mock
+  type: KAFKA   # KAFKA | RABBIT (대소문자 구분) - 현재 설정과 무관하게 두 컨슈머 모두 활성화됨
+  tracing:
+    propagation: true
+
+demo:
+  kafka:
+    topic: user.profile.updated.v1
+    topic2: user.activity.logged.v1
+  rabbit:
+    exchange: user.events
+    routing-key: user.profile.updated
+    queue: user.profile.updated.queue
+    routing-key2: user.activity.logged
+    queue2: user.activity.logged.queue

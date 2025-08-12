@@ -6,18 +6,15 @@ import com.inframessaging.playground.messaging.api.Envelope;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 /**
  * RabbitMQ 데모 컨슈머
- * - messaging.type=RABBIT 일 때 활성화됩니다.
  * - demo.rabbit.queue 큐를 구독하여 Envelope(JSON)를 수신/로그합니다.
  */
 @Slf4j
 @Component
 @RequiredArgsConstructor
-@ConditionalOnProperty(prefix = "messaging", name = "type", havingValue = "RABBIT")
 public class RabbitDemoConsumer {
 
     private final ObjectMapper objectMapper;

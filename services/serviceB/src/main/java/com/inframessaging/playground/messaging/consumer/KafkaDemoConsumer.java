@@ -5,25 +5,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.inframessaging.playground.messaging.api.Envelope;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 /**
  * Kafka 데모 컨슈머
- * - messaging.type=KAFKA 일 때 활성화됩니다.
  * - demo.kafka.topic 토픽을 구독하여 Envelope(JSON)를 수신/로그합니다.
  */
 @Slf4j
 @Component
 @RequiredArgsConstructor
-@ConditionalOnProperty(prefix = "messaging", name = "type", havingValue = "KAFKA")
 public class KafkaDemoConsumer {
 
     private final ObjectMapper objectMapper;
     private final ConsumerState state;
 
-    @KafkaListener(topics = "${demo.kafka.topic:user.profile.updated.v1}", groupId = "infra-messaging-demo")
+    @KafkaListener(topics = {"${demo.kafka.topic:user.profile.updated.v1}", "${demo.kafka.topic2:user.activity.logged.v1}"}, groupId = "infra-messaging-demo")
     public void onMessage(String message) {
         try {
             Envelope<?> env = objectMapper.readValue(message, new TypeReference<Envelope<?>>(){});

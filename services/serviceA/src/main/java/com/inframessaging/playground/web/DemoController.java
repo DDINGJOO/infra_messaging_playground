@@ -56,6 +56,28 @@ public class DemoController {
         return ResponseEntity.accepted().build();
     }
 
+    /**
+     * 여러 토픽/라우팅키로 다건 발행하는 샘플
+     */
+    @PostMapping("/publish-multi")
+    public ResponseEntity<?> publishMulti(@RequestBody DemoRequest req) {
+        // 여러 Kafka 토픽으로 발행
+        if (req.getKafkaTopics() != null && !req.getKafkaTopics().isEmpty()) {
+            for (String kt : req.getKafkaTopics()) {
+                DemoEvent ev = new DemoEvent(BrokerType.KAFKA, kt, req.getVersion(), req.getUserId());
+                publisher.publish(ev, RoutingOptions.builder().kafkaKey(req.getUserId()).build());
+            }
+        }
+        // 여러 Rabbit 라우팅키로 발행(같은 exchange)
+        if (req.getRabbitRoutingKeys() != null && !req.getRabbitRoutingKeys().isEmpty()) {
+            for (String rk : req.getRabbitRoutingKeys()) {
+                DemoEvent ev = new DemoEvent(BrokerType.RABBIT, req.getRabbitExchange(), req.getVersion(), req.getUserId());
+                publisher.publish(ev, RoutingOptions.builder().routingKey(rk).build());
+            }
+        }
+        return ResponseEntity.accepted().build();
+    }
+
     @Data
     public static class DemoRequest {
         /** 사용 브로커(KAFKA/RABBIT) */
@@ -66,6 +88,10 @@ public class DemoController {
         private String rabbitExchange = "user.events";
         /** Rabbit 라우팅키 */
         private String rabbitRoutingKey = "user.profile.updated";
+        /** 여러 Kafka 토픽(다건 발행용) */
+        private java.util.List<String> kafkaTopics = java.util.List.of("user.profile.updated.v1", "user.activity.logged.v1");
+        /** 여러 Rabbit 라우팅키(다건 발행용) */
+        private java.util.List<String> rabbitRoutingKeys = java.util.List.of("user.profile.updated", "user.activity.logged");
         /** 이벤트 버전 */
         private int version = 1;
         /** 사용자 ID(샘플 페이로드이자 Kafka 파티션 키로 사용) */

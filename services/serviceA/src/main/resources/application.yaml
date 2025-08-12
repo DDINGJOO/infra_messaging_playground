@@ -20,12 +20,18 @@ spring:
     console:
       enabled: true
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: localhost:9093
   rabbitmq:
     host: localhost
     port: 5672
     username: guest
     password: guest
+
+# Outbox Processor 설정 (ServiceA에서만 활성화)
+outbox:
+  enabled: true
+  schedule:
+    delay-ms: 1000  # 폴링 주기(ms)
 
 messaging:
   type: KAFKA   # KAFKA | RABBIT (대소문자 구분)
