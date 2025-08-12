@@ -82,6 +82,32 @@ public class DemoController {
         return ResponseEntity.accepted().build();
     }
 
+    /**
+     * - type: UserRegisteredEvent, version: 1
+     * - payload: userId, email, userNumber, regCode
+     */
+    @PostMapping("/publish-user")
+    public ResponseEntity<?> publishUser(@RequestBody UserRegisteredRequest req) {
+        UserRegisteredEvent event = new UserRegisteredEvent(
+                req.getBroker(),
+                req.getTopic(),
+                1,
+                // payload는 Map으로 구성 (Producer 측은 클래스 불필요)
+                java.util.Map.of(
+                        "userId", req.getUserId(),
+                        "email", req.getEmail(),
+                        "userNumber", req.getUserNumber(),
+                        "regCode", req.getRegCode()
+                )
+        );
+        RoutingOptions opts = RoutingOptions.builder()
+                .kafkaKey(req.getUserId())
+                .routingKey(req.getRoutingKey() != null ? req.getRoutingKey() : "user.registered")
+                .build();
+        publisher.publish(event, opts);
+        return ResponseEntity.accepted().build();
+    }
+
     @Data
     public static class DemoRequest {
         private BrokerType broker = BrokerType.KAFKA;
@@ -96,12 +122,35 @@ public class DemoController {
     }
 
     @Data
+    public static class UserRegisteredRequest {
+        private BrokerType broker = BrokerType.KAFKA; // KAFKA | RABBIT
+        private String topic = "user.registered.v1"; // Kafka topic 또는 Rabbit exchange
+        private String routingKey = "user.registered"; // Rabbit 사용 시
+        private String userId;
+        private String email;
+        private Long userNumber;
+        private Long regCode;
+    }
+
+    @Data
     public static class DemoEvent implements CustomEvent {
         private final BrokerType brokerType;
         private final String topic; // kafka topic OR rabbit exchange (routing determined by brokerType + RoutingOptions)
         private final int version;
         private final String userId;
         private final Object payload;
+
+        @Override public BrokerType brokerType() { return brokerType; }
+        @Override public String topic() { return topic; }
+        @Override public int version() { return version; }
+    }
+
+    @Data
+    public static class UserRegisteredEvent implements CustomEvent {
+        private final BrokerType brokerType; // KAFKA or RABBIT
+        private final String topic;          // Kafka topic or Rabbit exchange
+        private final int version;           // 1
+        private final Object payload;        // Map payload
 
         @Override public BrokerType brokerType() { return brokerType; }
         @Override public String topic() { return topic; }
