@@ -1,8 +1,9 @@
 package com.inframessaging.playground.messaging.consumer;
 
 import com.inframessaging.playground.messaging.api.Envelope;
-import com.inframessaging.playground.messaging.deser.EnvelopeDeserializer;
+
 import com.inframessaging.playground.sample.consumer.UserRegisteredPayload;
+import deser.EnvelopeDeserializer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;

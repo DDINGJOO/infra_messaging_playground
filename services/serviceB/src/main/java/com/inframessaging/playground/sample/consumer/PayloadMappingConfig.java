@@ -1,6 +1,7 @@
 package com.inframessaging.playground.sample.consumer;
 
-import com.inframessaging.playground.messaging.deser.EventPayloadRegistry;
+
+import deser.EventPayloadRegistry;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
