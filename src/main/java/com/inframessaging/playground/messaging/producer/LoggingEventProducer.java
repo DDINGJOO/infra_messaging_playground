@@ -5,10 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 
+/**
+ * 실제 브로커 전송 대신 로그로 출력하는 PoC용 Producer 구현체
+ */
 @Slf4j
 public class LoggingEventProducer implements EventProducer {
 
-    private final BrokerType selected = BrokerType.KAFKA; // default; real selection is via bean exposure
+    private final BrokerType selected = BrokerType.KAFKA; // default; 실제 선택은 빈 주입/설정에 따름
 
     @Override
     public BrokerType brokerType() {

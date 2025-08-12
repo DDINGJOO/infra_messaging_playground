@@ -3,6 +3,14 @@ package com.inframessaging.playground.messaging.outbox;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+/**
+ * outbox.* 구성 프로퍼티 바인딩
+ * - enabled: Processor 활성/비활성
+ * - batch.size: 한 번에 가져올 처리 건수
+ * - schedule.delay-ms: 폴링 주기(ms)
+ * - retry.max-attempts: 실패 시 최대 재시도 횟수
+ * - retry.backoff.*: 백오프 파라미터(기본/최대/지터율)
+ */
 @Data
 @ConfigurationProperties(prefix = "outbox")
 public class OutboxProperties {
@@ -22,8 +30,11 @@ public class OutboxProperties {
     }
     @Data
     public static class Backoff {
+        /** 백오프 기본 초(지수 증가의 베이스) */
         private int baseSeconds = 5;
+        /** 백오프 최대 초(상한) */
         private int maxSeconds = 300;
+        /** 지터율(랜덤 흔들림 비율, 0.1 = ±10%) */
         private double jitterRate = 0.1;
     }
 }
