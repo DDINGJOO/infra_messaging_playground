@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: infra-messaging-playground
+  datasource:
+    url: jdbc:h2:mem:playground;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  h2:
+    console:
+      enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+messaging:
+  type: kafka
+  tracing:
+    propagation: true
+
+outbox:
+  enabled: true
+  batch:
+    size: 200
+  schedule:
+    delay-ms: 1000
+  retry:
+    max-attempts: 10
+    backoff:
+      base-seconds: 5
+      max-seconds: 60
+      jitter-rate: 0.1
