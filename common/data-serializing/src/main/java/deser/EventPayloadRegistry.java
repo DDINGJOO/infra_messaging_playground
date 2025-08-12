@@ -1,4 +1,4 @@
-package com.inframessaging.playground.messaging.deser;
+package deser;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;

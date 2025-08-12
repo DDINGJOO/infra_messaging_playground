@@ -1,4 +1,4 @@
-package com.inframessaging.playground.messaging.deser;
+package deser;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

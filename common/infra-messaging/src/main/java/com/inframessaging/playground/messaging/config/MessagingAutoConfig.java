@@ -1,10 +1,11 @@
 package com.inframessaging.playground.messaging.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.inframessaging.playground.messaging.deser.EnvelopeDeserializer;
-import com.inframessaging.playground.messaging.deser.EventPayloadRegistry;
+
 import com.inframessaging.playground.messaging.producer.EventProducer;
 import com.inframessaging.playground.messaging.producer.RealEventProducer;
+import deser.EnvelopeDeserializer;
+import deser.EventPayloadRegistry;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
